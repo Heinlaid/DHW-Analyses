@@ -1,0 +1,32 @@
+name: Run Jupyter Notebook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run_notebook:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.11
+
+    - name: Install Jupyter Notebook
+      run: pip install jupyter
+
+    - name: Run Jupyter Notebook
+      run: |
+        jupyter nbconvert --execute --to html dhw.ipynb
+
+    - name: Upload HTML Output
+      uses: actions/upload-artifact@v2
+      with:
+        name: notebook-output
+        path: notebook.html
